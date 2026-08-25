@@ -109,7 +109,7 @@
                 nascimento.getDate() !== dia
             ) {
                 document.getElementById("resultado").innerText =
-                    "❌ Data de nascimento inválida.";
+                    " Data de nascimento inválida.";
                 return;
             }
 
