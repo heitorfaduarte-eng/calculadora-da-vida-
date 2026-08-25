@@ -18,13 +18,34 @@
 <br>
 <button id="btn">Calcular</button>
 <p id="resultado"></p>
+<input type="number" id="idade" placeholder="Sua idade">
+<button onclick="calcular()">Calcular</button>
+<p id="resultado"></p>
+
 <script>
-document.getElementById('btn').addEventListener('click', function(){
-  let v = document.getElementById('idade').value;
-  let r = document.getElementById('resultado');
-  if(!v){ r.innerText = "Digita sua idade!"; return; }
-  r.innerHTML = "Você tem " + v + " anos<br>" + (v*365) + " dias vividos!";
-});
+function calcular(){
+  let idade = document.getElementById('idade').value;
+
+  if(idade == ""){
+    document.getElementById('resultado').innerHTML = "Digite sua idade né pae!";
+    return;
+  }
+
+  idade = parseInt(idade);
+  let anoAtual = new Date().getFullYear(); // 2026
+  let anoNascimento = anoAtual - idade;
+
+  // conta quantos anos bissextos teve
+  let bissextos = 0;
+  for(let ano = anoNascimento; ano <= anoAtual; ano++){
+    if((ano % 4 == 0 && ano % 100 != 0) || (ano % 400 == 0)){
+      bissextos++;
+    }
+  }
+
+  let dias = (idade * 365) + bissextos;
+  let horas = dias * 24;
+
+  document.getElementById('resultado').innerHTML = `Você tem ${idade} anos<br>${dias} dias (já contando ${bissextos} anos bissextos)<br>${horas} horas vividas!`;
+}
 </script>
-</body>
-</html>
