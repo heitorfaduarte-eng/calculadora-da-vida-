@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Calculadora da Vida</title>
+<style>
+ body{background:#0a0a0a;color:#fff;font-family:Arial;text-align:center;padding-top:70px}
+ h1{color:#00ff88}
+ input{padding:16px;font-size:22px;border-radius:14px;border:none;width:200px;text-align:center}
+ button{padding:16px 32px;font-size:20px;background:#00ff88;border:none;border-radius:14px;font-weight:bold;margin-top:18px}
+ #resultado{margin-top:30px;font-size:22px}
+</style>
+</head>
+<body>
+<h1>Calculadora da Vida</h1>
+<input id="idade" type="number" placeholder="Sua idade">
+<br>
+<button id="btn">Calcular</button>
+<p id="resultado"></p>
+<script>
+document.getElementById('btn').addEventListener('click', function(){
+  let v = document.getElementById('idade').value;
+  let r = document.getElementById('resultado');
+  if(!v){ r.innerText = "Digita sua idade!"; return; }
+  r.innerHTML = "Você tem " + v + " anos<br>" + (v*365) + " dias vividos!";
+});
+</script>
+</body>
+</html>
