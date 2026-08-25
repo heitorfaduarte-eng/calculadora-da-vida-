@@ -1,43 +1,128 @@
 <!DOCTYPE html>
-<html>
+<html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Calculadora da Vida</title>
+
 <style>
- body{background:#0a0a0a;color:#fff;font-family:Arial;text-align:center;padding-top:70px}
- h1{color:#00ff88}
- input{padding:16px;font-size:22px;border-radius:14px;border:none;width:200px;text-align:center}
- button{padding:16px 32px;font-size:20px;background:#00ff88;border:none;border-radius:14px;font-weight:bold;margin-top:18px}
- #resultado{margin-top:30px;font-size:22px}
+  body {
+    background: #0a0a0a;
+    color: #fff;
+    font-family: Arial, sans-serif;
+    text-align: center;
+    padding-top: 70px;
+  }
+
+  h1 {
+    color: #00ff88;
+  }
+
+  input {
+    padding: 16px;
+    font-size: 22px;
+    border-radius: 14px;
+    border: none;
+    width: 200px;
+    text-align: center;
+  }
+
+  button {
+    padding: 16px 32px;
+    font-size: 20px;
+    background: #00ff88;
+    border: none;
+    border-radius: 14px;
+    font-weight: bold;
+    margin-top: 18px;
+    cursor: pointer;
+  }
+
+  button:hover {
+    background: #00cc6f;
+  }
+
+  #resultado {
+    margin-top: 30px;
+    font-size: 22px;
+    line-height: 1.6;
+  }
 </style>
 </head>
-<body>
-<h1>Calculadora da Vida</h1>
-<script>
-function calcular(){
-  let idade = document.getElementById('idade').value;
 
-  if(idade == ""){
-    document.getElementById('resultado').innerHTML = "Digite sua idade né pae!";
+<body>
+
+<h1>Calculadora da Vida</h1>
+
+<input
+  type="number"
+  id="idade"
+  placeholder="Sua idade"
+  min="0"
+  max="120"
+>
+
+<br>
+
+<button onclick="calcular()">Calcular</button>
+
+<div id="resultado"></div>
+
+<script>
+function calcular() {
+  let idade = document.getElementById("idade").value;
+  let resultado = document.getElementById("resultado");
+
+  if (idade === "") {
+    resultado.innerHTML = "Digite sua idade né pae!";
     return;
   }
 
   idade = parseInt(idade);
-  let anoAtual = new Date().getFullYear(); // 2026
+
+  if (idade < 0 || idade > 120) {
+    resultado.innerHTML = "Digite uma idade válida!";
+    return;
+  }
+
+  const hoje = new Date();
+  const anoAtual = hoje.getFullYear();
+
   let anoNascimento = anoAtual - idade;
 
-  // conta quantos anos bissextos teve
+  // Ajusta caso a pessoa ainda não tenha feito aniversário este ano
+  const nascimentoAproximado = new Date(
+    anoNascimento,
+    hoje.getMonth(),
+    hoje.getDate()
+  );
+
+  if (nascimentoAproximado > hoje) {
+    anoNascimento--;
+  }
+
+  // Conta os anos bissextos no período vivido
   let bissextos = 0;
-  for(let ano = anoNascimento; ano <= anoAtual; ano++){
-    if((ano % 4 == 0 && ano % 100 != 0) || (ano % 400 == 0)){
+
+  for (let ano = anoNascimento; ano <= anoAtual; ano++) {
+    if (
+      (ano % 4 === 0 && ano % 100 !== 0) ||
+      ano % 400 === 0
+    ) {
       bissextos++;
     }
   }
 
-  let dias = (idade * 365) + bissextos;
-  let horas = dias * 24;
+  const dias = (idade * 365) + bissextos;
+  const horas = dias * 24;
 
-  document.getElementById('resultado').innerHTML = `Você tem ${idade} anos<br>${dias} dias (já contando ${bissextos} anos bissextos)<br>${horas} horas vividas!`;
+  resultado.innerHTML = `
+    Você tem <strong>${idade} anos</strong>.<br>
+    ${dias.toLocaleString("pt-BR")} dias vividos.<br>
+    ${horas.toLocaleString("pt-BR")} horas vividas! 🚀
+  `;
 }
 </script>
+
+</body>
+</html>
