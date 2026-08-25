@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora de Dias Vividos</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f0f2f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+
+        .calculadora {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
+            width: 350px;
+            text-align: center;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        input {
+            width: 90%;
+            padding: 12px;
+            margin: 8px 0;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+
+        button {
+            width: 96%;
+            padding: 12px;
+            margin-top: 15px;
+            background: #007bff;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #0056b3;
+        }
+
+        #resultado {
+            margin-top: 20px;
+            font-size: 20px;
+            font-weight: bold;
+            color: #333;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="calculadora">
+        <h1> Dias Vividos</h1>
+
+        <input type="number" id="dia" placeholder="Dia" min="1" max="31">
+
+        <input type="number" id="mes" placeholder="Mês" min="1" max="12">
+
+        <input type="number" id="ano" placeholder="Ano" min="1900" max="2026">
+
+        <button onclick="calcularDias()">
+            Calcular
+        </button>
+
+        <div id="resultado"></div>
+    </div>
+
+    <script>
+        function calcularDias() {
+
+            // Pegando os valores digitados
+            const dia = Number(document.getElementById("dia").value);
+            const mes = Number(document.getElementById("mes").value);
+            const ano = Number(document.getElementById("ano").value);
+
+            // Verificando se os campos foram preenchidos
+            if (!dia || !mes || !ano) {
+                document.getElementById("resultado").innerText =
+                    " Preencha todos os campos.";
+                return;
+            }
+
+            // Criando a data de nascimento
+            const nascimento = new Date(ano, mes - 1, dia);
+
+            // Data atual
+            const hoje = new Date();
+
+            // Verifica se a data é válida
+            if (
+                nascimento.getFullYear() !== ano ||
+                nascimento.getMonth() !== mes - 1 ||
+                nascimento.getDate() !== dia
+            ) {
+                document.getElementById("resultado").innerText =
+                    "❌ Data de nascimento inválida.";
+                return;
+            }
+
+            // Verifica se a pessoa ainda não nasceu
+            if (nascimento > hoje) {
+                document.getElementById("resultado").innerText =
+                    " A data de nascimento não pode estar no futuro.";
+                return;
+            }
+
+            // Diferença entre as datas em milissegundos
+            const diferenca = hoje - nascimento;
+
+            // Quantidade de milissegundos em um dia
+            const milissegundosPorDia = 1000 * 60 * 60 * 24;
+
+            // Convertendo para dias
+            const diasVividos = Math.floor(
+                diferenca / milissegundosPorDia
+            );
+
+            // Mostrando o resultado
+            document.getElementById("resultado").innerText =
+                ` Você já viveu aproximadamente ${diasVividos.toLocaleString("pt-BR")} dias!`;
+        }
+    </script>
+
+</body>
+</html>
